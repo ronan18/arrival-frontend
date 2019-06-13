@@ -41,6 +41,10 @@
               }
 
             })
+            this.$io.on('trainsUpdate', (data) => {
+              this.appData.trains = data
+
+            })
 
             // });
           } else {
