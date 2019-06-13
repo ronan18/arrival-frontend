@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Settings from './views/settings.vue'
 import Search from './views/search.vue'
-
+import Loading from './views/loading.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -24,6 +24,11 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: Search
+    },
+    {
+      path: '/loading',
+      name: 'loading',
+      component: Loading
     }
   ]
 })

@@ -115,7 +115,9 @@ html, body, #app, .page {
 
     .data-value {
       @apply font-bold text-sm;
-
+      span {
+        @apply font-light text-xs;
+      }
     }
   }
 }
@@ -126,6 +128,7 @@ html, body, #app, .page {
   top: -2rem;
 }
 
+
 .search input {
   @apply bg-blue w-full;
   &:focus {
@@ -134,21 +137,70 @@ html, body, #app, .page {
 }
 
 .search-suggestions {
- @apply p-3 pt-0;
+  @apply p-3 pt-0;
 
 }
+
 .search-suggestion {
   @apply rounded bg-white flex p-2 content-center mt-3;
 }
+
 .suggestion-station {
   @apply font-bold m-auto ml-0;
 }
+
 .suggestion-data {
   @apply flex flex-col mr-2 text-right;
   .data-header {
     @apply font-light text-xs;
   }
+
   .data-value {
     @apply font-bold text-sm;
+  }
+}
+
+.settings > .page-heading {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -2rem;
+}
+
+.settings-options {
+  @apply flex flex-col p-3;
+
+}
+
+.settings-block-header {
+  @apply flex justify-between;
+  h3 {
+    @apply font-bold text-lg;
+  }
+
+  p {
+    @apply text-blue;
+  }
+}
+
+.settings-block-desc {
+  @apply font-light text-sm mt-2 mb-2;
+}
+
+.copyright {
+  @apply font-light text-xs mt-auto text-center;
+}
+
+.settings-block {
+  @apply border-b pb-2 mb-3 border-grey;
+}
+
+.settings-block-notificationRow {
+  @apply flex justify-between;
+  .notificationRow-option {
+    @apply border-grey-dark border-2 p-2 pt-0 pb-0 rounded;
+  }
+
+  .notificationRow-option.selected {
+    @apply border-blue text-blue;
   }
 }

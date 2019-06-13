@@ -5,7 +5,9 @@ import store from './store'
 import './registerServiceWorker'
 import '@/assets/css/tailwind.scss'
 import '@/assets/css/app.scss'
+import io from '../node_modules/socket.io-client/dist/socket.io.js'
 
+Vue.prototype.$io =  io('localhost:3000');
 Vue.directive('focus', {
   inserted: function (el) {
     el.focus()

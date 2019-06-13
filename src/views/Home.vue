@@ -1,5 +1,5 @@
 <template>
-  <main class="page">
+  <main v-if="$parent.appData" class="page">
     <div class="page-heading">
       <h1>Trains</h1>
       <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
@@ -7,18 +7,19 @@
     <div class="home-locations">
       <div  @click="$router.push('/search')" class="locations-location">
         <p class="location-heading">from</p>
-        <p class="location-value">Balboa Park</p>
+        <p class="location-value">{{$parent.appData.fromStation.name}}</p>
       </div>
       <div class="locations-location text-center">
-        <p class="location-heading">leave</p>
-        <p class="location-value">Now</p>
+        <p class="location-heading">{{$parent.appData.calcTime.type}}</p>
+        <p class="location-value">{{$parent.appData.calcTime.time}}</p>
       </div>
       <div @click="$router.push('/search')" class="locations-location text-right">
         <p class="location-heading">to</p>
-        <p class="location-value">Rockridge</p>
+        <p v-if="$parent.appData.toStation" class="location-value">{{$parent.appData.toStation.name}}</p>
+        <p v-if="!$parent.appData.toStation" class="location-value">Choose</p>
       </div>
     </div>
-    <div class="home-trip">
+    <div v-if="$parent.appData.trip" class="home-trip">
       <div class="trip-time">
         <div class="trip-timeblock">
           <p class="timeblock-header">Depart</p>
@@ -35,21 +36,21 @@
       <p class="desc text-center">tap to be notified 10m before your train departs</p>
     </div>
     <div class="home-schedule">
-      <div v-for="i in [1,2,3,4,5,6,7]" class="schedule-train">
+      <div v-for="train in $parent.appData.trains" class="schedule-train">
         <div class="train-color"></div>
         <div class="train-line">
           <p class="train-header">line</p>
-          <p class="line-value">Antioch</p>
+          <p class="line-value">{{train.destination}}</p>
         </div>
         <div class="train-data">
           <p class="train-header">cars</p>
-          <p class="data-value">10</p>
+          <p class="data-value">{{train.cars}}</p>
         </div>
         <div class="train-data">
           <p class="train-header">departs</p>
-          <p class="data-value">10:30am</p>
+          <p class="data-value">{{train.etd.value}}<span>{{train.etd.unit}}</span></p>
         </div>
-        <div class="train-data">
+        <div v-if="train.arrives" class="train-data">
           <p class="train-header">arrives</p>
           <p class="data-value">12:40pm</p>
         </div>

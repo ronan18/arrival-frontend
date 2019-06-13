@@ -5,6 +5,15 @@ p,h1,h2,h3,h4 {
 .btn {
   @apply rounded shadow text-white  bg-blue p-2 w-full text-sm;
 }
+.btn.grey {
+  @apply bg-grey text-white shadow-none;
+}
+.btn--outline {
+  @apply rounded text-grey-dark  border-grey-dark border-2 p-2 w-full text-sm;
+}
+.btn--outline.red {
+  @apply text-red-dark border-red-dark;
+}
 .desc {
   @apply font-light text-xs text-grey-dark mt-2 mb-2;
 }

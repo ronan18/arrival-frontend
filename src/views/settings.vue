@@ -4,5 +4,34 @@
       <img @click="$router.push('/')" class="icon -mr-2 w-10 mb-0 -ml-3" src="@/assets/icons/back.svg">
       <h1>Settings</h1>
     </div>
+    <div class="settings-options">
+      <div class="settings-block">
+        <div class="settings-block-header">
+          <h3>Notifications</h3>
+          <p>15min</p>
+        </div>
+        <p class="settings-block-desc">Choose how many minutes you would like to be notified before the departure of
+          your train.</p>
+        <div class="settings-block-notificationRow">
+          <button class="notificationRow-option">5min</button>
+          <button class="notificationRow-option">10min</button>
+          <button class="notificationRow-option selected">15min</button>
+          <button class="notificationRow-option">20min</button>
+        </div>
+      </div> <div class="settings-block">
+        <div class="settings-block-header">
+          <h3>Account</h3>
+          <p>the plane flies south</p>
+        </div>
+        <p class="settings-block-desc">Arrival keeps your data completely anonymous however if you would like to delete your data please click the button below. If you think your account has been compromised please click the change passphrase button.</p>
+        <div class="settings-block-accountRow ">
+          <button class="accountRow-option btn--outline red mb-2 ">DELETE ACCOUNT</button>
+          <button class="accountRow-option btn">CHANGE PASSPHRASE</button>
+
+        </div>
+      </div>
+
+      <p class="copyright">v1.0.0 <br> Arrival is an open source project by Ronan Furuta</p>
+    </div>
   </main>
 </template>
