@@ -6,7 +6,11 @@ import './registerServiceWorker'
 import '@/assets/css/tailwind.scss'
 import '@/assets/css/app.scss'
 
-
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus()
+  }
+})
 Vue.config.productionTip = false
 
 new Vue({

@@ -12,14 +12,15 @@ html, body, #app, .page {
 
 .page-heading {
   @apply bg-blue text-white text-lg font-bold text-4xl flex content-center;
-  height: 17.4278169vh;
-  @apply p-3;
+
+
+  @apply p-3 pt-10;
   h1 {
     @apply text-white mt-auto mb-0;
   }
 
   .icon {
-    @apply w-6 mt-auto mb-3 ml-auto;
+    @apply mt-auto ;
   }
 
 }
@@ -30,6 +31,7 @@ html, body, #app, .page {
   top: 0;
   position: -webkit-sticky;
   position: sticky;
+
   .locations-location {
     @apply flex flex-col justify-center;
     .location-heading {
@@ -48,6 +50,7 @@ html, body, #app, .page {
   top: 10vh;
   position: -webkit-sticky;
   position: sticky;
+
   .desc {
     font-size: 0.6rem;
     @apply mb-0;
@@ -105,12 +108,47 @@ html, body, #app, .page {
     .train-line {
       @apply mr-auto;
     }
+
     .train-data {
       @apply mr-2;
     }
+
     .data-value {
       @apply font-bold text-sm;
 
     }
+  }
+}
+
+.search > .page-heading {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -2rem;
+}
+
+.search input {
+  @apply bg-blue w-full;
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-suggestions {
+ @apply p-3 pt-0;
+
+}
+.search-suggestion {
+  @apply rounded bg-white flex p-2 content-center mt-3;
+}
+.suggestion-station {
+  @apply font-bold m-auto ml-0;
+}
+.suggestion-data {
+  @apply flex flex-col mr-2 text-right;
+  .data-header {
+    @apply font-light text-xs;
+  }
+  .data-value {
+    @apply font-bold text-sm;
   }
 }

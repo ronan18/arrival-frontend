@@ -2,10 +2,10 @@
   <main class="page">
     <div class="page-heading">
       <h1>Trains</h1>
-      <img class="icon" src="@/assets/icons/gear.svg">
+      <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
     </div>
     <div class="home-locations">
-      <div class="locations-location">
+      <div  @click="$router.push('/search')" class="locations-location">
         <p class="location-heading">from</p>
         <p class="location-value">Balboa Park</p>
       </div>
@@ -13,7 +13,7 @@
         <p class="location-heading">leave</p>
         <p class="location-value">Now</p>
       </div>
-      <div class="locations-location text-right">
+      <div @click="$router.push('/search')" class="locations-location text-right">
         <p class="location-heading">to</p>
         <p class="location-value">Rockridge</p>
       </div>
