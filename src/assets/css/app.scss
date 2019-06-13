@@ -1,0 +1,116 @@
+html, body, #app, .page {
+  @apply bg-grey-lighter;
+  @appy m-0;
+  height: 100%;
+}
+
+.page {
+  @apply flex flex-col;
+
+
+}
+
+.page-heading {
+  @apply bg-blue text-white text-lg font-bold text-4xl flex content-center;
+  height: 17.4278169vh;
+  @apply p-3;
+  h1 {
+    @apply text-white mt-auto mb-0;
+  }
+
+  .icon {
+    @apply w-6 mt-auto mb-3 ml-auto;
+  }
+
+}
+
+.home-locations {
+  @apply bg-grey-dark p-3 flex justify-between content-center;
+  height: 14vh;
+  top: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  .locations-location {
+    @apply flex flex-col justify-center;
+    .location-heading {
+      @apply text-white text-xs font-light;
+    }
+
+    .location-value {
+      @apply text-white font-bold;
+    }
+  }
+}
+
+.home-trip {
+  @apply bg-white ml-3 mr-3 mt-3 shadow rounded p-4 flex flex-col justify-center;
+  height: 30vh;
+  top: 10vh;
+  position: -webkit-sticky;
+  position: sticky;
+  .desc {
+    font-size: 0.6rem;
+    @apply mb-0;
+  }
+
+  .trip-time {
+    @apply flex mb-auto content-center justify-between;
+
+    .trip-enroute {
+      @apply font-bold text-lg mt-auto mb-1;
+
+      span {
+        @apply font-light text-sm;
+      }
+    }
+
+    .trip-timeblock {
+      @apply flex flex-col;
+      .timeblock-header {
+        @apply text-blue font-bold text-xs;
+      }
+
+      .timeblock-time {
+        @apply font-bold text-2xl;
+      }
+    }
+  }
+
+
+}
+
+.home-schedule {
+  @apply p-3;
+  @apply flex flex-col;
+  .schedule-train {
+    @apply flex bg-white rounded content-center mt-3;
+    height: 3rem;
+
+    div {
+      @apply flex flex-col justify-center;
+    }
+
+    .train-color {
+      @apply rounded-l bg-yellow w-3 mr-2;
+    }
+
+    .line-value {
+      @apply font-bold text-sm mt-0 leading-none;
+    }
+
+    .train-header {
+      @apply font-light text-xs mb-0 leading-none;
+    }
+
+    .train-line {
+      @apply mr-auto;
+    }
+    .train-data {
+      @apply mr-2;
+    }
+    .data-value {
+      @apply font-bold text-sm;
+
+    }
+  }
+}

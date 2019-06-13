@@ -1,0 +1,12 @@
+@tailwind base;
+p,h1,h2,h3,h4 {
+  @apply text-grey-dark;
+}
+.btn {
+  @apply rounded shadow text-white  bg-blue p-2 w-full text-sm;
+}
+.desc {
+  @apply font-light text-xs text-grey-dark mt-2 mb-2;
+}
+@tailwind components;
+@tailwind utilities;
