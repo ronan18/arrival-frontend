@@ -21,17 +21,29 @@
       </div> <div class="settings-block">
         <div class="settings-block-header">
           <h3>Account</h3>
-          <p>the plane flies south</p>
+          <p>{{this.$parent.passphrase}}</p>
         </div>
         <p class="settings-block-desc">Arrival keeps your data completely anonymous however if you would like to delete your data please click the button below. If you think your account has been compromised please click the change passphrase button.</p>
         <div class="settings-block-accountRow ">
           <button class="accountRow-option btn--outline red mb-2 ">DELETE ACCOUNT</button>
-          <button class="accountRow-option btn">CHANGE PASSPHRASE</button>
+          <button @click="logout" class="accountRow-option btn">LOGOUT</button>
 
         </div>
       </div>
 
-      <p class="copyright">v1.0.0 <br> Arrival is an open source project by Ronan Furuta</p>
+      <p class="copyright">v{{this.$parent.version}} <br> Arrival is an open source project by Ronan Furuta</p>
     </div>
   </main>
 </template>
+<script>
+  export default {
+    name: 'settings',
+    methods: {
+      logout() {
+        this.$parent.passphrase = null
+        localStorage.setItem("passphrase", null);
+        window.location.reload()
+      }
+    }
+  }
+</script>

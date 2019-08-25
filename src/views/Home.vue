@@ -1,22 +1,22 @@
 <template>
   <main v-if="$parent.appData" class="page">
     <div class="page-heading">
-      <h1>Trains</h1>
+      <h1 >Trains <span class="text-xs font-light">{{$parent.version}}</span></h1>
       <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
     </div>
     <div class="home-locations">
-      <div  @click="$router.push('/search')" class="locations-location">
+      <div  @click="$router.push('/from')" class="locations-location">
         <p class="location-heading">from</p>
-        <p class="location-value">{{$parent.appData.fromStation.name}}</p>
+        <p :class="{'text-xs': $parent.appData.fromStation.name.length > 11}" class="location-value">{{$parent.appData.fromStation.name}}</p>
       </div>
-      <div class="locations-location text-center">
+      <div  class="locations-location text-center">
         <p class="location-heading">{{$parent.appData.calcTime.type}}</p>
         <p class="location-value">{{$parent.appData.calcTime.time}}</p>
       </div>
-      <div @click="$router.push('/search')" class="locations-location text-right">
+      <div @click="$router.push('/to')" class="locations-location text-right">
         <p class="location-heading">to</p>
-        <p v-if="$parent.appData.toStation" class="location-value">{{$parent.appData.toStation.name}}</p>
-        <p v-if="!$parent.appData.toStation" class="location-value">Choose</p>
+        <p :class="{'text-xs': $parent.appData.toStation.name.length > 11}" v-if="$parent.appData.toStation" class="location-value">{{$parent.appData.toStation.name}}</p>
+        <p  v-if="!$parent.appData.toStation" class="location-value">Choose</p>
       </div>
     </div>
     <div v-if="$parent.appData.trip" class="home-trip">
@@ -37,22 +37,22 @@
     </div>
     <div class="home-schedule">
       <div v-for="train in $parent.appData.trains" class="schedule-train">
-        <div class="train-color"></div>
-        <div class="train-line">
+        <div class="train-color" v-if="train.color" :class="train.color"></div>
+        <div class="train-line flex-grow-0 w-1/2">
           <p class="train-header">line</p>
-          <p class="line-value">{{train.destination}}</p>
+          <p :class="{'text-xs': train.destination.length > 10}" class="line-value">{{train.destination}}</p>
         </div>
-        <div class="train-data">
+        <div v-if="train.cars" class="train-data">
           <p class="train-header">cars</p>
           <p class="data-value">{{train.cars}}</p>
         </div>
         <div class="train-data">
           <p class="train-header">departs</p>
-          <p class="data-value">{{train.etd.value}}<span>{{train.etd.unit}}</span></p>
+          <p class="data-value">{{train.etd.value}}<span v-if="train.etd.unit">{{train.etd.unit}}</span></p>
         </div>
-        <div v-if="train.arrives" class="train-data">
+        <div v-if="train.eta" class="train-data">
           <p class="train-header">arrives</p>
-          <p class="data-value">12:40pm</p>
+          <p class="data-value">{{train.eta.value}}</p>
         </div>
       </div>
     </div>
@@ -61,6 +61,10 @@
 
 <script>
   export default {
-    name: 'home'
+    name: 'home',
+    mounted() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0;
+    }
   }
 </script>

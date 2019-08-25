@@ -1,5 +1,5 @@
 <template>
-  <main class="page loading">
-    <p>Loading</p>
+  <main class="page loading bg-blue">
+
   </main>
 </template>

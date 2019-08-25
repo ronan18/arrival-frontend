@@ -1,5 +1,5 @@
-html, body, #app, .page {
-  @apply bg-grey-lighter;
+body, #app, .page {
+  @apply bg-grey-lighter font-sans;
   @appy m-0;
   height: 100%;
 }
@@ -24,6 +24,58 @@ html, body, #app, .page {
   }
 
 }
+.auth {
+
+  @apply p-5 text-center bg-white h-screen;
+  .back {
+    @apply font-bold text-blue mr-auto;
+  }
+  p {
+    @apply mb-auto font-light text-sm;
+  }
+  b {
+    @apply font-bold;
+  }
+  form {
+    @apply m-auto;
+    .error {
+      @apply text-red;
+    }
+
+    input {
+      @apply border-solid border-4 border-blue font-bold text-xl text-center ;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+}
+.onBoarding {
+
+  @apply p-5 text-center bg-white h-screen;
+
+  svg {
+    @apply m-auto mb-3;
+
+  }
+  h1 {
+    @apply text-2xl font-bold m-auto mb-1 mt-3;
+  }
+  p {
+    @apply font-light mb-auto text-sm;
+
+  }
+  .btn--outline {
+    @apply mt-2;
+  }
+  small {
+    @apply mt-2;
+  }
+}
 
 .home-locations {
   @apply bg-grey-dark p-3 flex justify-between content-center;
@@ -32,8 +84,9 @@ html, body, #app, .page {
   position: -webkit-sticky;
   position: sticky;
 
+
   .locations-location {
-    @apply flex flex-col justify-center;
+    @apply flex flex-col justify-center flex-grow-0 w-2/5;
     .location-heading {
       @apply text-white text-xs font-light;
     }
@@ -94,8 +147,9 @@ html, body, #app, .page {
     }
 
     .train-color {
-      @apply rounded-l bg-yellow w-3 mr-2;
+      @apply rounded-l w-3;
     }
+
 
     .line-value {
       @apply font-bold text-sm mt-0 leading-none;
@@ -106,11 +160,11 @@ html, body, #app, .page {
     }
 
     .train-line {
-      @apply mr-auto;
+      @apply mr-auto ml-2;
     }
 
     .train-data {
-      @apply mr-2;
+      @apply mr-2 text-right;
     }
 
     .data-value {
@@ -193,6 +247,11 @@ html, body, #app, .page {
 .settings-block {
   @apply border-b pb-2 mb-3 border-grey;
 }
+.settings-block-accountRow {
+  .accountRow-option {
+    @apply mt-2;
+  }
+}
 
 .settings-block-notificationRow {
   @apply flex justify-between;
@@ -202,5 +261,40 @@ html, body, #app, .page {
 
   .notificationRow-option.selected {
     @apply border-blue text-blue;
+  }
+}
+
+.YELLOW {
+  @apply bg-yellow;
+}
+
+.ORANGE {
+  @apply bg-orange ;
+}
+
+.BLUE {
+  @apply bg-blue ;
+}
+
+.GREEN {
+  @apply bg-green ;
+}
+
+.RED {
+  @apply bg-red ;
+}
+
+.loading {
+  background: url('../splashscreen.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  img {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    position: fixed;
   }
 }

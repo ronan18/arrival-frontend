@@ -9,6 +9,7 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "register-service-worker": "^1.6.2",
+    "shortid": "^2.2.14",
     "socket.io": "^2.2.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",

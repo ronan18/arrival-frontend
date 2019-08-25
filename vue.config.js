@@ -11,6 +11,7 @@ module.exports = {
           path.join(__dirname, './src/**/*.vue'),
           path.join(__dirname, './src/**/*.js')
         ]),
+        whitelist: ['GREEN', 'ORANGE', 'RED', 'YELLOW', 'BLUE'],
         extractors: [
           {
             extractor: class TailwindExtractor {
