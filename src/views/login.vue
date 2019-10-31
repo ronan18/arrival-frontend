@@ -20,7 +20,8 @@
     methods: {
       login() {
         if (this.passphrase) {
-          fetch('https://api.arrival.stomprocket.io/api/v1/passphraseCheck', {
+          console.log('logging in')
+          fetch('https://api.arrival.city/api/v1/passphraseCheck', {
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
@@ -36,7 +37,7 @@
               this.$router.push('/')
               console.log('good phrase')
               localStorage.setItem("passphrase", this.passphrase);
-              this.$parent.init()
+              this.$parent.init(this.passphrase)
             } else {
               this.error = 'passphrase invalid'
             }

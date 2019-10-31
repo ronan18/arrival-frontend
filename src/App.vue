@@ -14,14 +14,14 @@
       return {
         position: {},
         appData: false,
-        version: '1.0.1',
+        version: '1.0.7',
         apiKey: null,
         apiURL: null,
         passphrase: false
         //  passphrase: 'passphrase'
       }
     },
-    mounted() {
+    created() {
 
       let path
 
@@ -41,10 +41,15 @@
     },
     methods: {
       init(pass) {
-        if (pass) {
-          this.passphrase = pass
-        }
         let path = this.$route.path
+        if (pass) {
+          console.log('recived init from create new account', pass)
+          this.passphrase = pass
+          path = '/'
+        } else {
+          console.log('recived init from natural source',   this.passphrase)
+        }
+
         this.$router.push('/loading')
         if (this.passphrase) {
           this.$io.emit('passphrase', {pass: this.passphrase, version: this.version})
@@ -61,7 +66,7 @@
                 console.log('getting location')
                 navigator.geolocation.getCurrentPosition((pos) => {
 
-                  //console.log(pos)
+
                   this.position = {
                     coords: {lat: pos.coords.latitude, long: pos.coords.longitude}, timestamp: pos.timestamp
                   }
@@ -91,9 +96,25 @@
                   })
 
 
-                });
+                }, error => {
+                  switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                      window.alert('Please enable Location Services to use Arrival')
+                      break;
+                    case error.POSITION_UNAVAILABLE:
+                      window.alert("Location information is unavailable.")
+                      break;
+                    case error.TIMEOUT:
+                      window.alert("The request to get user location timed out.")
+                      break;
+                    case error.UNKNOWN_ERROR:
+                      window.alert("An unknown error occurred.")
+                      break;
+                  }
+                })
               } else {
                 console.log('position error')
+                window.alert('Please enable Location Services to use Arrival')
               }
 
 

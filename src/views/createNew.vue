@@ -25,7 +25,7 @@
     methods: {
       createNewAccount() {
         if (this.passphrase) {
-          fetch('https://api.arrival.stomprocket.io/api/v1/createAccount', {
+          fetch('https://api.arrival.city/api/v1/createAccount', {
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'

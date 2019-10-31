@@ -6,7 +6,7 @@ import './registerServiceWorker'
 
 import io from '../node_modules/socket.io-client/dist/socket.io.js'
 
-Vue.prototype.$io =  io('https://api.arrival.stomprocket.io');
+Vue.prototype.$io =  io('https://api.arrival.city');
 //Vue.prototype.$io =  io('http://localhost:3000');
 Vue.directive('focus', {
   inserted: function (el) {
