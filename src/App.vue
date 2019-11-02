@@ -14,7 +14,7 @@
       return {
         position: {},
         appData: false,
-        version: '1.0.7',
+        version: require('../package.json').version,
         apiKey: null,
         apiURL: null,
         passphrase: false
