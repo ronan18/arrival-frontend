@@ -21,23 +21,19 @@
       login() {
         if (this.passphrase) {
           console.log('logging in')
-          fetch('https://api.arrival.city/api/v1/passphraseCheck', {
+          fetch(this.$store.getters.getApi + '/api/v2/login', {
             headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
+              'Authorization': this.passphrase
             },
-            method: 'POST',
-            body: JSON.stringify({
-              passphrase: this.passphrase
-            })
+            method: 'GET'
           }).then(res => res.json()).then(res => {
             console.log(res)
-            if (res.exists) {
-              this.$parent.passphrase = this.passphrase
+            if (res.user) {
+              this.$store.commit('setPassphrase', this.passphrase)
+              this.$store.commit('setKey', res.key)
+              localStorage.setItem("passphrase", this.passphrase);
               this.$router.push('/')
               console.log('good phrase')
-              localStorage.setItem("passphrase", this.passphrase);
-              this.$parent.init(this.passphrase)
             } else {
               this.error = 'passphrase invalid'
             }

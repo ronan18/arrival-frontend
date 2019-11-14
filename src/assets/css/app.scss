@@ -3,12 +3,13 @@ body, #app, .page {
   @appy m-0;
   height: 100%;
 }
+
 body {
   @apply bg-white;
 }
 
 .page {
-  min-height: 100vh!important;
+  min-height: 100vh !important;
   @apply bg-grey-lighter flex flex-col m-auto;
   max-width: 500px !important;
 
@@ -183,6 +184,10 @@ body {
       @apply mr-2 text-right;
     }
 
+    .data-value.small {
+      @apply text-xs;
+    }
+
     .data-value {
       @apply font-bold text-sm;
       span {
@@ -295,6 +300,10 @@ body {
 
 .GREEN {
   @apply bg-green ;
+}
+
+.PURPLE {
+  background: #7a3e77;
 }
 
 .RED {

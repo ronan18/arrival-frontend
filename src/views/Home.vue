@@ -1,25 +1,26 @@
 <template>
-  <main v-if="$parent.appData" class="page">
+  <main class="page">
     <div class="page-heading">
-      <h1 >Trains <span class="text-xs font-light">{{$parent.version}}</span></h1>
-      <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
+      <h1>Trains <span class="text-xs font-light">{{$parent.version}}</span></h1>
+      <img class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
     </div>
     <div class="home-locations">
-      <div  @click="$router.push('/from')" class="locations-location">
+      <router-link to="/from" class="locations-location">
         <p class="location-heading">from</p>
-        <p :class="{'text-xs': $parent.appData.fromStation.name.length > 11}" class="location-value">{{$parent.appData.fromStation.name}}</p>
+        <p class="location-value">{{fromStation.name}}</p>
+      </router-link>
+      <div class="locations-location text-center">
+        <p class="location-heading">Leave</p>
+        <p class="location-value">now</p>
       </div>
-      <div  class="locations-location text-center">
-        <p class="location-heading">{{$parent.appData.calcTime.type}}</p>
-        <p class="location-value">{{$parent.appData.calcTime.time}}</p>
-      </div>
-      <div @click="$router.push('/to')" class="locations-location text-right">
+      <router-link to="/to" class="locations-location text-right">
         <p class="location-heading">to</p>
-        <p :class="{'text-xs': $parent.appData.toStation.name.length > 11}" v-if="$parent.appData.toStation" class="location-value">{{$parent.appData.toStation.name}}</p>
-        <p  v-if="!$parent.appData.toStation" class="location-value">Choose</p>
-      </div>
+
+        <p v-if="!toStation" class="location-value">Choose</p>
+        <p v-if="toStation" class="location-value">{{toStation.name}}</p>
+      </router-link>
     </div>
-    <div v-if="$parent.appData.trip" class="home-trip">
+    <div v-if="false" class="home-trip">
       <div class="trip-time">
         <div class="trip-timeblock">
           <p class="timeblock-header">Depart</p>
@@ -36,23 +37,28 @@
       <p class="desc text-center">tap to be notified 10m before your train departs</p>
     </div>
     <div class="home-schedule">
-      <div v-for="train in $parent.appData.trains" class="schedule-train">
-        <div class="train-color" v-if="train.color" :class="train.color"></div>
+      <p class="text-xs text-grey">{{updated}}</p>
+      <div v-for="train in trains" class="schedule-train">
+        <div v-if="train.details" class="train-color" :class="train.details.color"></div>
         <div class="train-line flex-grow-0 w-1/2">
           <p class="train-header">line</p>
-          <p :class="{'text-xs': train.destination.length > 10}" class="line-value">{{train.destination}}</p>
+          <p :class="{'text-xs': false}" class="line-value">{{train.destination}}</p>
         </div>
-        <div v-if="train.cars" class="train-data">
+        <div v-if="train.details" class="train-data">
           <p class="train-header">cars</p>
-          <p class="data-value">{{train.cars}}</p>
+          <p class="data-value">{{train.details.length}}</p>
         </div>
-        <div class="train-data">
+        <div v-if="train.etd" class="train-data">
           <p class="train-header">departs</p>
-          <p class="data-value">{{train.etd.value}}<span v-if="train.etd.unit">{{train.etd.unit}}</span></p>
+          <p class="data-value">{{train.etd}}<span> min</span></p>
         </div>
-        <div v-if="train.eta" class="train-data">
+        <div v-if="train.originTime" class="train-data">
+          <p class="train-header">departs</p>
+          <p class="data-value small">{{train.originTime}}</p>
+        </div>
+        <div v-if="train.destTime" class="train-data">
           <p class="train-header">arrives</p>
-          <p class="data-value">{{train.eta.value}}</p>
+          <p class="data-value small">{{train.destTime}}</p>
         </div>
       </div>
     </div>
@@ -62,9 +68,154 @@
 <script>
   export default {
     name: 'home',
+    data() {
+      return {
+        fromStation: 'none',
+        user: {},
+        trains: [],
+        updated: 'none',
+        toStation: false
+      }
+    },
     mounted() {
-      document.body.scrollTop = 0; // For Safari
-      document.documentElement.scrollTop = 0;
+      if (this.$store.getters.fromStation) {
+        this.fromStation = this.$store.getters.fromStation
+        console.log(this.fromStation)
+      }
+      if (this.$store.getters.toStation) {
+        this.toStation = this.$store.getters.toStation
+        console.log(this.toStation)
+      }
+      this.user = this.$store.getters.getAuthentication
+      if (this.user) {
+        console.log('getting location')
+        if (this.$parent.production) {
+          navigator.geolocation.getCurrentPosition(position => {
+            console.log(position)
+            this.$store.commit('setPosition', {
+              coords: {
+                accuracy: position.coords.accuracy,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+              }, time: position.timestamp
+            })
+            const closestStations = this.$parent.getClosestStation()
+
+            this.$store.commit('setStations', closestStations)
+            if (!this.$store.getters.fromStation) {
+              this.fromStation = closestStations[0]
+              this.$store.commit('setFromStation', closestStations[0])
+              console.log(closestStations[0])
+            } else {
+              this.fromStation = this.$store.getters.fromStation
+              console.log(this.fromStation)
+            }
+
+            this.refresh()
+            let refreshInterval = setInterval(() => {
+              // console.log('going')
+              this.refresh()
+            }, 30000)
+          })
+        } else {
+          const position = {
+            coords: {
+              accuracy: 100,
+              latitude: 37.562992,
+              longitude: -122.325523
+            }
+          }
+          this.$store.commit('setPosition', {
+            coords: {
+              accuracy: position.coords.accuracy,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            }, time: position.timestamp
+          })
+          const closestStations = this.$parent.getClosestStation()
+
+          this.$store.commit('setStations', closestStations)
+          if (!this.$store.getters.fromStation) {
+            this.fromStation = closestStations[0]
+            this.$store.commit('setFromStation', closestStations[0])
+            console.log(closestStations[0])
+          } else {
+            this.fromStation = this.$store.getters.fromStation
+            console.log(this.fromStation)
+          }
+          this.refresh()
+          let refreshInterval = setInterval(() => {
+            // console.log('going')
+            this.refresh()
+          }, 30000)
+        }
+
+
+      } else {
+        this.$router.push('/login')
+      }
+    },
+    methods: {
+      refresh() {
+        console.log('refreshing')
+        if (this.toStation) {
+          fetch(this.$store.getters.getApi + `/api/v2/routes/${this.fromStation.abbr}/${this.toStation.abbr}`, {
+            method: 'GET',
+            headers: {
+              Authorization: this.user.passphrase
+            }
+          }).then(res => res.json()).then(res => {
+            console.log(res)
+            this.trains = res.trips.map(i => {
+              const result = {
+                destination: i.leg[0]['@trainHeadStation'],
+                destTime: i['@destTimeMin'],
+                originTime: i['@origTimeMin']
+              }
+              return result
+            })
+          })
+        } else {
+          fetch(this.$store.getters.getApi + `/api/v2/trains/${this.fromStation.abbr}`, {
+            method: 'GET',
+            headers: {
+              Authorization: this.user.passphrase
+            }
+          }).then(res => res.json()).then(res => {
+            console.log(res)
+            this.updated = res.time
+            this.trains = res.estimates.etd.map(i => {
+              let result = {
+                abbreviation: i.abbreviation,
+                details: i.estimate[0],
+                etd: i.estimate[0].minutes,
+                destination: i.destination
+              }
+
+              return result
+            }).sort((a, b) => {
+              let conversionA = a.etd
+              let conversionB = b.etd
+              if (a.etd == 'Leaving') {
+                conversionA = -1
+
+              } else {
+
+              }
+              if (b.etd == 'Leaving') {
+                conversionB = -1
+
+              } else {
+
+              }
+              return conversionA - conversionB
+            })
+
+          })
+        }
+
+
+      }
     }
   }
 </script>
