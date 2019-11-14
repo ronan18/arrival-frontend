@@ -2,10 +2,14 @@ body, #app, .page {
   @apply font-sans;
   @appy m-0;
   height: 100%;
+  margin: 0 !important;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 body {
   @apply bg-white;
+  margin: 0;
 }
 
 .page {
