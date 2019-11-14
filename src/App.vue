@@ -59,6 +59,13 @@
           console.log(config.apiurl['_value'], config.latestversion['_value'], config, 'config')
           this.$store.commit('apiUrl', config.apiurl['_value'])
           this.$store.commit('setLatestVersion', config.latestversion['_value'])
+          if (config.latestversion['_value'] > this.version) {
+            window.caches.keys().then(cacheNames => {
+              cacheNames.forEach(cacheName => {
+                caches.delete(cacheName);
+              });
+            });
+          }
         })
         .catch((err) => {
           console.error(err);
