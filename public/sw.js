@@ -1,7 +1,9 @@
-console.log('Hello from service-worker.js');
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
 if (workbox) {
+  //console.log('Hello from service-worker.js newer', self.__precacheManifest);
+  workbox.googleAnalytics.initialize();
+  workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
   console.log(`Yay! Workbox is loaded 🎉`);
   workbox.routing.registerRoute(
     'https://api.arrival.city/api/v2/stations',
@@ -10,7 +12,7 @@ if (workbox) {
     })
   );
   workbox.routing.registerRoute(
-    /\.(?:js|css)$/,
+    /\.(?:js|css|html|json)$/,
     new workbox.strategies.StaleWhileRevalidate({
       cacheName: 'static-resources',
     })
