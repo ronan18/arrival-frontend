@@ -5,6 +5,7 @@ import store from './store'
 import './registerServiceWorker'
 import firebase from 'firebase/app'
 import 'firebase/remote-config'
+
 const firebaseConfig = {
   apiKey: "AIzaSyANR-1NZ4V-KLLUX4JPEhcWsOkH_pFwOQ4",
   authDomain: "arrival-bart.firebaseapp.com",
@@ -17,11 +18,16 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 Vue.prototype.$firebase = firebase
-let remoteConfig = firebase.remoteConfig();
-remoteConfig.settings = {
-  minimumFetchIntervalMillis: 3600000,
-};
-Vue.prototype.$remoteConfig = remoteConfig
+
+
+/*
+remoteConfig.defaultConfig = ({
+  'apiurl': 'https://api.arrival.city',
+  'latestversion': require('../package.json').version,
+});
+
+ */
+//Vue.prototype.$remoteConfig = remoteConfig
 
 
 import io from '../node_modules/socket.io-client/dist/socket.io.js'

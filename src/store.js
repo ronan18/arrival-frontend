@@ -15,9 +15,10 @@ export default new Vuex.Store({
     key: false,
     production: true,
     stations: [],
+    latestVersion: 0,
     apiUrl: 'https://api.arrival.city',
-     testingUrl: 'https://api.arrival.city',
-   // testingUrl: 'http://localhost:3000'
+    testingUrl: 'https://api.arrival.city',
+    // testingUrl: 'http://localhost:3000'
   },
   mutations: {
     setProduction(state, production) {
@@ -44,6 +45,9 @@ export default new Vuex.Store({
         state.key = false
       }
     },
+    setLatestVersion(state, version) {
+      state.latestVersion = version
+    },
     setStations(state, stations) {
       state.stations = stations
     },
@@ -55,10 +59,16 @@ export default new Vuex.Store({
     },
     neuralNet(state, net) {
       state.net = net
+    },
+    apiUrl(state, url) {
+      state.apiUrl = url
     }
   },
   actions: {},
   getters: {
+    latestVersion(state) {
+      return state.latestVersion
+    },
     net(state) {
       return state.net
     },

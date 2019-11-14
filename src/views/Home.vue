@@ -1,7 +1,7 @@
 <template>
   <main class="page" style="margin: 0">
     <div class="page-heading">
-      <h1>Trains <span class="text-xs font-light">{{$parent.version}}</span></h1>
+      <h1>Trains <span class="text-xs font-light">{{$parent.version}}</span> <span class="text-xs font-bold text-red" v-if="outDated"> OUTDATED</span></h1>
       <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
     </div>
     <div class="home-locations">
@@ -153,6 +153,14 @@
 
       } else {
         this.$router.push('/login')
+      }
+    },
+    computed: {
+      latestVersion() {
+        return this.$store.getters.latestVersion
+      },
+      outDated() {
+        return this.$store.getters.latestVersion > this.$parent.version
       }
     },
     methods: {
