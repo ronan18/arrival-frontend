@@ -6,6 +6,10 @@ if (workbox) {
   workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
   console.log(`Yay! Workbox is loaded 🎉`);
   workbox.routing.registerRoute(
+    /firebaseremoteconfig.googleapis\.com/,
+    new workbox.strategies.NetworkFirst()
+  );
+  workbox.routing.registerRoute(
     'https://api.arrival.city/api/v2/stations',
     new workbox.strategies.CacheFirst({
       cacheName: 'station-cache',

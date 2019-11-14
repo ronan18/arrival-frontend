@@ -43,33 +43,35 @@
     },
 
     created() {
+      let remoteConfig = this.$firebase.remoteConfig();
+      remoteConfig.settings = {
+        minimumFetchIntervalMillis: 3600000,
+      };
+      remoteConfig.fetch()
+
+      remoteConfig.fetchAndActivate()
+      .then(() => {
+        const config = remoteConfig.getAll()
+        console.log(config.apiurl['_value'], config.latestversion['_value'], config, 'config')
+        this.$store.commit('apiUrl', config.apiurl['_value'])
+        this.$store.commit('setLatestVersion', config.latestversion['_value'])
+        if (config.latestversion['_value'] > this.version) {
+          window.caches.keys().then(cacheNames => {
+            cacheNames.forEach(cacheName => {
+              caches.delete(cacheName);
+            });
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
       this.init()
     },
     methods: {
       init() {
         this.$router.push('/loading')
-        let remoteConfig = this.$firebase.remoteConfig();
-        remoteConfig.settings = {
-          minimumFetchIntervalMillis: 3600000,
-        };
-        remoteConfig.fetchAndActivate()
-        .then(() => {
-          const config = remoteConfig.getAll()
-          console.log(config.apiurl['_value'], config.latestversion['_value'], config, 'config')
-          this.$store.commit('apiUrl', config.apiurl['_value'])
-          this.$store.commit('setLatestVersion', config.latestversion['_value'])
-          if (config.latestversion['_value'] > this.version) {
-            window.caches.keys().then(cacheNames => {
-              cacheNames.forEach(cacheName => {
-                caches.delete(cacheName);
-              });
-            });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
 
 
         if (document.location.hostname === 'localhost') {
