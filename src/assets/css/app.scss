@@ -9,7 +9,7 @@ body, #app, .page {
 
 body {
   @apply bg-white;
-  margin: 0;
+  margin: 0!important;
 }
 
 .page {
