@@ -1,5 +1,5 @@
 <template>
-  <main class="page">
+  <main class="page" style="margin: 0">
     <div class="page-heading">
       <h1>Trains <span class="text-xs font-light">{{$parent.version}}</span></h1>
       <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
