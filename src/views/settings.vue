@@ -18,12 +18,15 @@
           <button class="notificationRow-option selected">15min</button>
           <button class="notificationRow-option">20min</button>
         </div>
-      </div> <div class="settings-block">
+      </div>
+      <div class="settings-block">
         <div class="settings-block-header">
           <h3>Account</h3>
-          <p>{{this.$parent.passphrase}}</p>
+          <p>{{passphrase}}</p>
         </div>
-        <p class="settings-block-desc">Arrival keeps your data completely anonymous however if you would like to delete your data please click the button below. If you think your account has been compromised please click the change passphrase button.</p>
+        <p class="settings-block-desc">Arrival keeps your data completely anonymous however if you would like to delete
+          your data please click the button below. If you think your account has been compromised please click the
+          change passphrase button.</p>
         <div class="settings-block-accountRow ">
           <button class="accountRow-option btn--outline red mb-2 ">DELETE ACCOUNT</button>
           <button @click="logout" class="accountRow-option btn">LOGOUT</button>
@@ -38,11 +41,19 @@
 <script>
   export default {
     name: 'settings',
+    computed: {
+      passphrase() {
+        return this.$store.getters.getAuthentication.passphrase
+      }
+    },
+
     methods: {
       logout() {
         this.$parent.passphrase = null
-        localStorage.setItem("passphrase", null);
-        window.location.reload()
+        this.$store.commit('setPassphrase', false)
+        this.$store.commit('setKey', false)
+        localStorage.removeItem("passphrase");
+        this.$parent.init()
       }
     }
   }

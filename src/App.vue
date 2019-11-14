@@ -43,41 +43,47 @@
     },
 
     created() {
-      this.$router.push('/loading')
-      let passphrase = window.localStorage.getItem('passphrase')
-      fetch(this.$store.getters.getApi + '/api/v2/stations', {
-        method: 'GET'
-      }).then(res => res.json()).then(res => {
-        //console.log(res)
-        this.$store.commit('setStations', res)
-      })
-      if (passphrase) {
-        console.log('logged in')
-        fetch(this.$store.getters.getApi + '/api/v2/login', {
-          method: 'GET',
-          headers: {
-            Authorization: passphrase
-          }
-        }).then(res => res.json()).then(res => {
-          console.log(res)
-          if (res.user) {
-            this.$store.commit('setKey', res.key)
-            if (res.net) {
-              this.$store.commit('neuralNet', res.net)
-            }
-            this.$router.push('/')
 
-          } else {
-            this.$router.push('/login')
-          }
-        })
-        this.$store.commit('setPassphrase', passphrase)
-      } else {
-        this.$router.push('/welcome')
-      }
-
+      this.init()
     },
     methods: {
+      init() {
+        this.$router.push('/loading')
+        if (document.location.hostname === 'localhost') {
+          this.$store.commit('setProduction', false)
+        }
+        let passphrase = window.localStorage.getItem('passphrase')
+        fetch(this.$store.getters.getApi + '/api/v2/stations', {
+          method: 'GET'
+        }).then(res => res.json()).then(res => {
+          //console.log(res)
+          this.$store.commit('setStations', res)
+        })
+        if (passphrase) {
+          console.log('logged in')
+          fetch(this.$store.getters.getApi + '/api/v2/login', {
+            method: 'GET',
+            headers: {
+              Authorization: passphrase
+            }
+          }).then(res => res.json()).then(res => {
+            console.log(res)
+            if (res.user) {
+              this.$store.commit('setKey', res.key)
+              if (res.net) {
+                this.$store.commit('neuralNet', res.net)
+              }
+              this.$router.push('/')
+
+            } else {
+              this.$router.push('/login')
+            }
+          })
+          this.$store.commit('setPassphrase', passphrase)
+        } else {
+          this.$router.push('/welcome')
+        }
+      },
       getClosestStation() {
         if (this.$store.getters.getLocation) {
 

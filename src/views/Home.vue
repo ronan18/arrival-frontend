@@ -2,7 +2,7 @@
   <main class="page">
     <div class="page-heading">
       <h1>Trains <span class="text-xs font-light">{{$parent.version}}</span></h1>
-      <img class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
+      <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
     </div>
     <div class="home-locations">
       <router-link to="/from" class="locations-location">

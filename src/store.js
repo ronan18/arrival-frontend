@@ -13,12 +13,16 @@ export default new Vuex.Store({
     trains: false,
     passphrase: false,
     key: false,
-    production: false,
+    production: true,
     stations: [],
     apiUrl: 'https://api.arrival.city',
-    testingUrl: 'http://localhost:3000'
+     testingUrl: 'https://api.arrival.city',
+   // testingUrl: 'http://localhost:3000'
   },
   mutations: {
+    setProduction(state, production) {
+      state.production = production
+    },
     setPassphrase(state, passphrase) {
       if (passphrase) {
         state.passphrase = passphrase

@@ -3,7 +3,7 @@
     <router-link to="/featureAnonymous" class="back">back</router-link>
     <form @submit.prevent>
       <input disabled required placeholder="enter your passphrase" v-model="passphrase" type="text">
-      <p class="error">{{error}}</p>
+
     </form>
     <p>Arrival’s syncing is a little different. We generate your passphrase randomly. This allows us to ensure that none of the data we collect can be directly linked to you. In order to transfer or retrieve your data just enter this passphrase when you first start the app. <b>You might want to write this down. If you forget it, all of your data will be lost</b></p>
     <button @click="createNewAccount" class="btn">CONFIRM</button>
@@ -25,7 +25,7 @@
     methods: {
       createNewAccount() {
         if (this.passphrase) {
-          fetch('https://api.arrival.city/api/v1/createAccount', {
+          fetch(this.$store.getters.getApi + '/api/v2/createAccount', {
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
