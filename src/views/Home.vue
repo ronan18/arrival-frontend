@@ -114,33 +114,54 @@
       if (this.user) {
         console.log('getting location')
         if (this.$parent.production) {
-          navigator.geolocation.getCurrentPosition(position => {
-            console.log(position)
-            this.$store.commit('setPosition', {
-              coords: {
-                accuracy: position.coords.accuracy,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              }, time: position.timestamp
-            })
-            const closestStations = this.$parent.getClosestStation()
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+              console.log(position)
+              this.$store.commit('setPosition', {
+                coords: {
+                  accuracy: position.coords.accuracy,
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+                }, time: position.timestamp
+              })
+              const closestStations = this.$parent.getClosestStation()
 
-            this.$store.commit('setStations', closestStations)
-            if (!this.$store.getters.fromStation) {
-              this.fromStation = closestStations[0]
-              this.$store.commit('setFromStation', closestStations[0])
-              console.log(closestStations[0])
-            } else {
-              this.fromStation = this.$store.getters.fromStation
-              console.log(this.fromStation)
-            }
+              this.$store.commit('setStations', closestStations)
+              if (!this.$store.getters.fromStation) {
+                this.fromStation = closestStations[0]
+                this.$store.commit('setFromStation', closestStations[0])
+                console.log(closestStations[0])
+              } else {
+                this.fromStation = this.$store.getters.fromStation
+                console.log(this.fromStation)
+              }
 
-            this.refresh()
-            let refreshInterval = setInterval(() => {
-              // console.log('going')
               this.refresh()
-            }, 30000)
-          })
+              let refreshInterval = setInterval(() => {
+                // console.log('going')
+                this.refresh()
+              }, 30000)
+            }, (error) => {
+              console.log(error)
+              if (error.code === 1) {
+                this.$swal({
+                  title: "Location Access",
+                  text: "In order to load suggestions Arrival needs access to your location. Please turn on location access.",
+                  icon: "warning",
+                  buttons: false,
+                  dangerMode: true,
+                })
+              }
+            })
+          } else {
+            this.$swal({
+              title: "Location Access",
+              text: "In order to load suggestions Arrival needs access to your location. Please turn on location access.",
+              icon: "warning",
+              buttons: false,
+              dangerMode: true,
+            })
+          }
         } else {
           const position = {
             coords: {

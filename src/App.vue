@@ -75,7 +75,7 @@
 
 
         if (document.location.hostname === 'localhost') {
-          this.$store.commit('setProduction', false)
+          //   this.$store.commit('setProduction', false)
         }
         let passphrase = window.localStorage.getItem('passphrase')
         fetch(this.$store.getters.getApi + '/api/v2/stations', {
@@ -142,10 +142,19 @@
                 accuracy: position.accuracy, latitude: position.latitude, longitude: position.longitude
               }, time: position.timestamp
             })
+          }, (error) => {
+            console.log(error)
           });
 
 
         } else {
+          this.$swal({
+            title: "Location Access",
+            text: "In order to load suggestions Arrival needs access to your location. Please turn on location access.",
+            icon: "warning",
+            buttons: false,
+            dangerMode: true,
+          })
           return false
         }
       }
