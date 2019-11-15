@@ -87,10 +87,13 @@
         if (passphrase) {
           console.log('logged in')
           fetch(this.$store.getters.getApi + '/api/v2/login', {
-            method: 'GET',
+            method: 'POST',
             headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
               Authorization: passphrase
-            }
+            },
+            body: JSON.stringify({clientVersion: this.version})
           }).then(res => res.json()).then(res => {
             console.log(res)
             if (res.user) {
