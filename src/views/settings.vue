@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <p class="copyright">Client v{{this.$parent.version}} <br> Server v{{$store.getters.serverVersion}} <br> Arrival
+      <p class="copyright">Client v{{this.$parent.version}} Server v{{$store.getters.serverVersion}} Config v{{$store.getters.latestVersion}} <br> Arrival
         is an open source project by Ronan Furuta</p>
     </div>
   </main>
