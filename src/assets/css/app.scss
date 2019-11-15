@@ -9,7 +9,7 @@ body, #app, .page {
 
 body {
   @apply bg-white;
-  margin: 0!important;
+  margin: 0 !important;
 }
 
 .page {
@@ -276,7 +276,13 @@ body {
 .settings-block-accountRow {
   .accountRow-option {
     @apply mt-2;
+
   }
+
+}
+
+.btn.red {
+  background: red;
 }
 
 .settings-block-notificationRow {

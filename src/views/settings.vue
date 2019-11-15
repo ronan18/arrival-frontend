@@ -21,6 +21,21 @@
       </div>
       <div class="settings-block">
         <div class="settings-block-header">
+          <h3>Version</h3>
+          <p>{{$parent.version}}</p>
+        </div>
+        <p class="settings-block-desc">Arrival intelligently keeps it self up to date with out re-downloading its self.
+          However, if you would like to force Arrival to clear its cache and re-download press the re-download button.
+          PLEASE NOTE: by doing this you will temporarily slow down Arrival and increase its data usage until it can
+          re-cache.</p>
+        <div class="settings-block-accountRow ">
+
+          <button @click="update" class="accountRow-option btn red">RE-DOWNLOAD</button>
+
+        </div>
+      </div>
+      <div class="settings-block">
+        <div class="settings-block-header">
           <h3>Account</h3>
           <p>{{passphrase}}</p>
         </div>
@@ -34,7 +49,8 @@
         </div>
       </div>
 
-      <p class="copyright">Client v{{this.$parent.version}} <br> Server v{{$store.getters.serverVersion}} <br> Arrival is an open source project by Ronan Furuta</p>
+      <p class="copyright">Client v{{this.$parent.version}} <br> Server v{{$store.getters.serverVersion}} <br> Arrival
+        is an open source project by Ronan Furuta</p>
     </div>
   </main>
 </template>
@@ -48,6 +64,16 @@
     },
 
     methods: {
+      update() {
+
+        window.caches.keys().then(cacheNames => {
+          cacheNames.forEach(cacheName => {
+            caches.delete(cacheName);
+          });
+          window.location.reload()
+        });
+
+      },
       logout() {
         this.$parent.passphrase = null
         this.$store.commit('setPassphrase', false)
