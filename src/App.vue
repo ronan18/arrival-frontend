@@ -95,6 +95,7 @@
             console.log(res)
             if (res.user) {
               this.$store.commit('setKey', res.key)
+              this.$store.commit('serverVersion', res.version)
               if (res.net) {
                 this.$store.commit('neuralNet', res.net)
               }

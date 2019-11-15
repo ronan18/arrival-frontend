@@ -16,11 +16,16 @@ export default new Vuex.Store({
     production: true,
     stations: [],
     latestVersion: 0,
+    serverVersion: 0,
+
     apiUrl: 'https://api.arrival.city',
-   // testingUrl: 'https://api.arrival.city',
-     testingUrl: 'http://localhost:3000'
+    // testingUrl: 'https://api.arrival.city',
+    testingUrl: 'http://localhost:3000'
   },
   mutations: {
+    serverVersion(state, version) {
+      state.serverVersion = version
+    },
     setProduction(state, production) {
       state.production = production
     },
@@ -66,6 +71,9 @@ export default new Vuex.Store({
   },
   actions: {},
   getters: {
+    serverVersion(state) {
+      return state.serverVersion
+    },
     latestVersion(state) {
       return state.latestVersion
     },

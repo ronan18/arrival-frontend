@@ -5,7 +5,7 @@
       <h1>Settings</h1>
     </div>
     <div class="settings-options">
-      <div class="settings-block">
+      <div v-if="false" class="settings-block">
         <div class="settings-block-header">
           <h3>Notifications</h3>
           <p>15min</p>
@@ -28,13 +28,13 @@
           your data please click the button below. If you think your account has been compromised please click the
           change passphrase button.</p>
         <div class="settings-block-accountRow ">
-          <button class="accountRow-option btn--outline red mb-2 ">DELETE ACCOUNT</button>
+          <button v-if="false" class="accountRow-option btn--outline red mb-2 ">DELETE ACCOUNT</button>
           <button @click="logout" class="accountRow-option btn">LOGOUT</button>
 
         </div>
       </div>
 
-      <p class="copyright">v{{this.$parent.version}} <br> Arrival is an open source project by Ronan Furuta</p>
+      <p class="copyright">Client v{{this.$parent.version}} <br> Server v{{$store.getters.serverVersion}} <br> Arrival is an open source project by Ronan Furuta</p>
     </div>
   </main>
 </template>
