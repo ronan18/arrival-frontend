@@ -75,7 +75,7 @@
 
 
         if (document.location.hostname === 'localhost') {
-          //   this.$store.commit('setProduction', false)
+            this.$store.commit('setProduction', false)
         }
         let passphrase = window.localStorage.getItem('passphrase')
         fetch(this.$store.getters.getApi + '/api/v2/stations', {

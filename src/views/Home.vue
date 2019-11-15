@@ -135,7 +135,7 @@
                 this.fromStation = this.$store.getters.fromStation
                 console.log(this.fromStation)
               }
-
+              this.loading = false
               this.refresh()
               let refreshInterval = setInterval(() => {
                 // console.log('going')
@@ -188,6 +188,7 @@
             this.fromStation = this.$store.getters.fromStation
             console.log(this.fromStation)
           }
+          this.loading = false
           this.refresh()
           let refreshInterval = setInterval(() => {
             // console.log('going')
