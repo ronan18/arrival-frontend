@@ -17,8 +17,8 @@ export default new Vuex.Store({
     stations: [],
     latestVersion: 0,
     apiUrl: 'https://api.arrival.city',
-    testingUrl: 'https://api.arrival.city',
-    // testingUrl: 'http://localhost:3000'
+   // testingUrl: 'https://api.arrival.city',
+     testingUrl: 'http://localhost:3000'
   },
   mutations: {
     setProduction(state, production) {
