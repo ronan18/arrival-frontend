@@ -74,9 +74,15 @@
           icon: "warning",
           buttons: false,
           dangerMode: true,
+          closeOnClickOutside: false
         })               // ...
       }
-
+      window.addEventListener('online', () => {
+        if (navigator.onLine) { // true|false
+          this.$swal.close()
+        }
+        // Show a different icon based on offline/online
+      });
       window.addEventListener('offline', () => {
         if (!navigator.onLine) { // true|false
           this.$swal({
@@ -85,6 +91,7 @@
             icon: "warning",
             buttons: false,
             dangerMode: true,
+            closeOnClickOutside: false
           })               // ...
         }
         // Show a different icon based on offline/online
@@ -178,6 +185,7 @@
             icon: "warning",
             buttons: false,
             dangerMode: true,
+            closeOnClickOutside: false
           })
           return false
         }

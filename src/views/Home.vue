@@ -198,6 +198,7 @@
                   icon: "warning",
                   buttons: false,
                   dangerMode: true,
+                  closeOnClickOutside: false
                 })
               }
             })
@@ -208,6 +209,7 @@
               icon: "warning",
               buttons: false,
               dangerMode: true,
+              closeOnClickOutside: false
             })
           }
         } else {
