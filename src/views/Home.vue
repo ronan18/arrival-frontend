@@ -261,6 +261,7 @@
     methods: {
       refresh() {
         console.log('refreshing')
+        this.loading = false
         if (this.toStation) {
           fetch(this.$store.getters.getApi + `/api/v2/routes/${this.fromStation.abbr}/${this.toStation.abbr}`, {
             method: 'GET',

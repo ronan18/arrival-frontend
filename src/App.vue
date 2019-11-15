@@ -67,6 +67,30 @@
         console.error(err);
       });
 
+      if (!navigator.onLine) { // true|false
+        this.$swal({
+          title: "No Connection",
+          text: "While Arrival caches most of its resources offline, it requires an internet connection in order to load train data",
+          icon: "warning",
+          buttons: false,
+          dangerMode: true,
+        })               // ...
+      }
+
+      window.addEventListener('offline', () => {
+        if (!navigator.onLine) { // true|false
+          this.$swal({
+            title: "No Connection",
+            text: "While Arrival caches most of its resources offline, it requires an internet connection in order to load train data",
+            icon: "warning",
+            buttons: false,
+            dangerMode: true,
+          })               // ...
+        }
+        // Show a different icon based on offline/online
+      });
+
+
       this.init()
     },
     methods: {
@@ -75,7 +99,7 @@
 
 
         if (document.location.hostname === 'localhost') {
-            this.$store.commit('setProduction', false)
+          this.$store.commit('setProduction', false)
         }
         let passphrase = window.localStorage.getItem('passphrase')
         fetch(this.$store.getters.getApi + '/api/v2/stations', {
