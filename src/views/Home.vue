@@ -50,7 +50,7 @@
         </div>
         <div v-if="train.etd" class="train-data">
           <p class="train-header">departs</p>
-          <p class="data-value">{{train.etd}}<span> min</span></p>
+          <p class="data-value">{{train.etd}}<span v-if="train.etd != 'Leaving'"> min</span></p>
         </div>
         <div v-if="train.originTime" class="train-data">
           <p class="train-header">departs</p>
@@ -74,7 +74,8 @@
         user: {},
         trains: [],
         updated: 'none',
-        toStation: false
+        toStation: false,
+        loading: true
       }
     },
     mounted() {
@@ -182,6 +183,7 @@
               }
               return result
             })
+            this.loading = false
           })
         } else {
           fetch(this.$store.getters.getApi + `/api/v2/trains/${this.fromStation.abbr}`, {
@@ -218,6 +220,7 @@
               }
               return conversionA - conversionB
             })
+            this.loading = false
 
           })
         }

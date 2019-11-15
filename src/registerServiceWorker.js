@@ -20,9 +20,15 @@ if (process.env.NODE_ENV === 'production') {
     },
     updatefound () {
       console.log('New content is downloading.')
+      caches.keys().then(keys => {
+        keys.forEach(key => caches.delete(key));
+      })
     },
     updated () {
       console.log('New content is available; please refresh.')
+      caches.keys().then(keys => {
+        keys.forEach(key => caches.delete(key));
+      })
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')
