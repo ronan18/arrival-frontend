@@ -5,6 +5,7 @@ import store from './store'
 import './registerServiceWorker'
 import firebase from 'firebase/app'
 import 'firebase/remote-config'
+import 'firebase/messaging'
 import swal from 'sweetalert';
 import moment from 'moment'
 
@@ -19,7 +20,10 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+messaging.usePublicVapidKey("BBMc5ZA_zDv5E5zyI8jpEsr-UzNMVKbUSEykIGxzUkyMBHI5VMQ2yp9_8MIPPuUUxf9PvC1ub-UqfilYy1VI-gM");
 Vue.prototype.$firebase = firebase
+Vue.prototype.$messaging = messaging
 Vue.prototype.$swal = swal
 Vue.prototype.$moment = moment
 

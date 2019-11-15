@@ -2,7 +2,7 @@
   <main class="page" style="margin: 0">
     <loader v-if="loading"></loader>
     <div class="page-heading">
-      <h1>Trains <span class="text-xs font-light">v{{$parent.version}}</span> <span class="text-xs font-bold text-red"
+      <h1>Arrival <span class="text-xs font-light">v{{$parent.version}}</span> <span class="text-xs font-bold text-red"
                                                                                     v-if="outDated"> OUTDATED</span>
       </h1>
       <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
@@ -37,9 +37,9 @@
         </div>
 
       </div>
-      <button v-if="false" class="btn">NOTIFY</button>
-      <p v-if="false" class="desc text-center">tap to be notified 10m before your train departs</p>
-      <p class="desc text-center">Soon you can receive alerts before your train departs</p>
+      <button v-if="notificationsEnabled" class="btn">NOTIFY</button>
+      <p v-if="notificationsEnabled" class="desc text-center">tap to be notified 10m before your train departs</p>
+      <p v-if="!notificationsEnabled" class="desc text-center">Soon you can receive alerts before your train departs</p>
     </div>
     <div class="home-schedule">
       <p class="text-xs text-grey">{{updated}}</p>
@@ -145,7 +145,8 @@
         updated: '',
         toStation: false,
         loading: true,
-        selectedTrain: 0
+        selectedTrain: 0,
+        notificationsEnabled: true
       }
     },
     mounted() {
@@ -261,6 +262,18 @@
       }
     },
     methods: {
+      enableNotifications() {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            console.log('Notification permission granted.');
+            // TODO(developer): Retrieve an Instance ID token for use with FCM.
+            // ...
+          } else {
+            console.log('Unable to get permission to notify.');
+          }
+        });
+
+      },
       refresh() {
         console.log('refreshing')
         this.loading = false
@@ -284,6 +297,15 @@
               return result
             })
             this.loading = false
+          }).catch(err => {
+            this.$swal({
+              title: "Error connecting to Arrival backend",
+              text: "While arrival downloads much of its resources, it still needs to connect to its backend in order to load train data",
+              icon: "warning",
+              buttons: false,
+              dangerMode: true,
+              closeOnClickOutside: false
+            })
           })
         } else {
           fetch(this.$store.getters.getApi + `/api/v2/trains/${this.fromStation.abbr}`, {
@@ -322,7 +344,17 @@
             })
             this.loading = false
 
+          }).catch(err => {
+            this.$swal({
+              title: "Error connecting to Arrival backend",
+              text: "While arrival downloads much of its resources, it still needs to connect to its backend in order to load train data",
+              icon: "warning",
+              buttons: false,
+              dangerMode: true,
+              closeOnClickOutside: false
+            })
           })
+
         }
 
 

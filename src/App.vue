@@ -114,7 +114,17 @@
         }).then(res => res.json()).then(res => {
           //console.log(res)
           this.$store.commit('setStations', res)
+        }).catch(err => {
+          this.$swal({
+            title: "Error connecting to Arrival backend",
+            text: "While arrival downloads much of its resources, it still needs to connect to its backend in order to load train data",
+            icon: "warning",
+            buttons: false,
+            dangerMode: true,
+            closeOnClickOutside: false
+          })
         })
+
         if (passphrase) {
           console.log('logged in')
           fetch(this.$store.getters.getApi + '/api/v2/login', {
@@ -138,6 +148,15 @@
             } else {
               this.$router.push('/login')
             }
+          }).catch(err => {
+            this.$swal({
+              title: "Error connecting to Arrival backend",
+              text: "While arrival downloads much of its resources, it still needs to connect to its backend in order to load train data",
+              icon: "warning",
+              buttons: false,
+              dangerMode: true,
+              closeOnClickOutside: false
+            })
           })
           this.$store.commit('setPassphrase', passphrase)
         } else {
