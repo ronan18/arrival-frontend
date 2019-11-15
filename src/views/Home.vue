@@ -1,7 +1,10 @@
 <template>
   <main class="page" style="margin: 0">
+    <loader v-if="loading"></loader>
     <div class="page-heading">
-      <h1>Trains <span class="text-xs font-light">v{{$parent.version}}</span> <span class="text-xs font-bold text-red" v-if="outDated"> OUTDATED</span></h1>
+      <h1>Trains <span class="text-xs font-light">v{{$parent.version}}</span> <span class="text-xs font-bold text-red"
+                                                                                    v-if="outDated"> OUTDATED</span>
+      </h1>
       <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
     </div>
     <div class="home-locations">
@@ -10,8 +13,8 @@
         <p class="location-value">{{fromStation.name}}</p>
       </router-link>
       <div class="locations-location text-center">
-        <p  class="location-heading">leaving now</p>
-        <p v-if="false"  class="location-value">now</p>
+        <p class="location-heading">leaving now</p>
+        <p v-if="false" class="location-value">now</p>
       </div>
       <router-link to="/to" class="locations-location text-right">
         <p class="location-heading">to</p>
@@ -38,6 +41,22 @@
     </div>
     <div class="home-schedule">
       <p class="text-xs text-grey">{{updated}}</p>
+      <div v-if="trains.length === 0" v-for="skeleton in 3" class="schedule-train skeleton">
+        <div class="train-color GREY"></div>
+        <div class="train-line flex-grow-0 w-1/2">
+          <p class="train-header GREY">line</p>
+          <p class="line-value"></p>
+        </div>
+        <div class="train-data">
+          <p class="train-header GREY">cars</p>
+          <p class="data-value"></p>
+        </div>
+        <div class="train-data">
+          <p class="train-header GREY">departs</p>
+          <p class="data-value"></p>
+        </div>
+
+      </div>
       <div v-for="train in trains" class="schedule-train">
         <div v-if="train.details" class="train-color" :class="train.details.color"></div>
         <div class="train-line flex-grow-0 w-1/2">
@@ -66,8 +85,11 @@
 </template>
 
 <script>
+  import loader from '../components/loader'
+
   export default {
     name: 'home',
+    components: {loader},
     data() {
       return {
         fromStation: 'none',
@@ -82,6 +104,7 @@
       if (this.$store.getters.fromStation) {
         this.fromStation = this.$store.getters.fromStation
         console.log(this.fromStation)
+        this.loading = false
       }
       if (this.$store.getters.toStation) {
         this.toStation = this.$store.getters.toStation
