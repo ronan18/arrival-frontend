@@ -6,6 +6,7 @@ import './registerServiceWorker'
 import firebase from 'firebase/app'
 import 'firebase/remote-config'
 import swal from 'sweetalert';
+import moment from 'moment'
 
 const firebaseConfig = {
   apiKey: "AIzaSyANR-1NZ4V-KLLUX4JPEhcWsOkH_pFwOQ4",
@@ -20,6 +21,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 Vue.prototype.$firebase = firebase
 Vue.prototype.$swal = swal
+Vue.prototype.$moment = moment
 
 
 /*

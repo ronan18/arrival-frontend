@@ -23,21 +23,22 @@
         <p v-if="toStation" class="location-value">{{toStation.name}}</p>
       </router-link>
     </div>
-    <div v-if="false" class="home-trip">
+    <div v-if="toStation && trains.length > 0" class="home-trip">
       <div class="trip-time">
         <div class="trip-timeblock">
           <p class="timeblock-header">Depart</p>
-          <p class="timeblock-time">9:33</p>
+          <p class="timeblock-time">{{trains[selectedTrain].originTime}}</p>
         </div>
-        <p class="trip-enroute">55<span>min</span></p>
+        <p class="trip-enroute">{{trains[selectedTrain].enrouteTime}}<span>{{trains[selectedTrain].enrouteUnit}}</span></p>
         <div class="trip-timeblock text-right">
-          <p class="timeblock-header">Depart</p>
-          <p class="timeblock-time">9:33</p>
+          <p class="timeblock-header">Arrive</p>
+          <p class="timeblock-time">{{trains[selectedTrain].destTime}}</p>
         </div>
 
       </div>
-      <button class="btn">NOTIFY</button>
-      <p class="desc text-center">tap to be notified 10m before your train departs</p>
+      <button v-if="false" class="btn">NOTIFY</button>
+      <p v-if="false" class="desc text-center">tap to be notified 10m before your train departs</p>
+      <p  class="desc text-center">Soon you can receive alerts before your train departs</p>
     </div>
     <div class="home-schedule">
       <p class="text-xs text-grey">{{updated}}</p>
@@ -95,9 +96,10 @@
         fromStation: 'none',
         user: {},
         trains: [],
-        updated: 'none',
+        updated: '',
         toStation: false,
-        loading: true
+        loading: true,
+        selectedTrain: 0
       }
     },
     mounted() {
@@ -221,10 +223,13 @@
           }).then(res => res.json()).then(res => {
             console.log(res)
             this.trains = res.trips.map(i => {
+
               const result = {
                 destination: i.leg[0]['@trainHeadStation'],
-                destTime: i['@destTimeMin'],
-                originTime: i['@origTimeMin']
+                destTime: this.$moment(i.leg[0]['@destTimeMin'], 'HH:mm A').format('h:mm'),
+                originTime: this.$moment(i.leg[0]['@origTimeMin'], 'HH:mm A').format('h:mm'),
+                enrouteTime: this.$moment(i.leg[0]['@destTimeMin'], 'HH:mm A').diff(this.$moment(i.leg[0]['@origTimeMin'], 'HH:mm A'), 'minutes'),
+                enrouteUnit: 'min'
               }
               return result
             })
