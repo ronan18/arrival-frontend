@@ -29,7 +29,8 @@
           <p class="timeblock-header">Depart</p>
           <p class="timeblock-time">{{trains[selectedTrain].originTime}}</p>
         </div>
-        <p class="trip-enroute">{{trains[selectedTrain].enrouteTime}}<span>{{trains[selectedTrain].enrouteUnit}}</span></p>
+        <p class="trip-enroute">{{trains[selectedTrain].enrouteTime}}<span>{{trains[selectedTrain].enrouteUnit}}</span>
+        </p>
         <div class="trip-timeblock text-right">
           <p class="timeblock-header">Arrive</p>
           <p class="timeblock-time">{{trains[selectedTrain].destTime}}</p>
@@ -38,7 +39,7 @@
       </div>
       <button v-if="false" class="btn">NOTIFY</button>
       <p v-if="false" class="desc text-center">tap to be notified 10m before your train departs</p>
-      <p  class="desc text-center">Soon you can receive alerts before your train departs</p>
+      <p class="desc text-center">Soon you can receive alerts before your train departs</p>
     </div>
     <div class="home-schedule">
       <p class="text-xs text-grey">{{updated}}</p>
@@ -87,6 +88,51 @@
 
 <script>
   import loader from '../components/loader'
+
+  function versionCompare(v1, v2, options) {
+    var lexicographical = options && options.lexicographical,
+      zeroExtend = options && options.zeroExtend,
+      v1parts = v1.split('.'),
+      v2parts = v2.split('.');
+
+    function isValidPart(x) {
+      return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x);
+    }
+
+    if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
+      return NaN;
+    }
+
+    if (zeroExtend) {
+      while (v1parts.length < v2parts.length) v1parts.push("0");
+      while (v2parts.length < v1parts.length) v2parts.push("0");
+    }
+
+    if (!lexicographical) {
+      v1parts = v1parts.map(Number);
+      v2parts = v2parts.map(Number);
+    }
+
+    for (var i = 0; i < v1parts.length; ++i) {
+      if (v2parts.length == i) {
+        return 1;
+      }
+
+      if (v1parts[i] == v2parts[i]) {
+        continue;
+      } else if (v1parts[i] > v2parts[i]) {
+        return 1;
+      } else {
+        return -1;
+      }
+    }
+
+    if (v1parts.length != v2parts.length) {
+      return -1;
+    }
+
+    return 0;
+  }
 
   export default {
     name: 'home',
@@ -208,7 +254,8 @@
         return this.$store.getters.latestVersion
       },
       outDated() {
-        return this.$store.getters.latestVersion > this.$parent.version
+        console.log(versionCompare(this.$parent.version, String(this.$store.getters.latestVersion)), this.$parent.version, this.$store.getters.latestVersion)
+        return versionCompare(this.$parent.version, String(this.$store.getters.latestVersion)) === -1
       }
     },
     methods: {
