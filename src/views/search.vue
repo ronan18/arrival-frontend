@@ -10,6 +10,9 @@
       <div v-if="loading" class="search-suggestion text-center">
         <h1 class="font-bold text-center ml-auto mr-auto">Suggestions Loading</h1>
       </div>
+      <div @click="setStation(false)" v-if="mode === 'to'" class="search-suggestion">
+        <p class="suggestion-station">None</p>
+      </div>
       <div @click="setStation(station)" v-for="station in filteredStations" class="search-suggestion">
         <p class="suggestion-station">{{station.name}}</p>
         <div v-if="station.nextTrain" class="suggestion-data">
@@ -26,6 +29,9 @@
   </main>
 </template>
 <script>
+  import brain from 'brain.js'
+
+  const moment = require('moment')
   export default {
     name: 'search',
     data() {
@@ -38,82 +44,100 @@
     },
     mounted() {
       this.loading = true
-      //this.$parent.apiURL = 'http://localhost:3000'
-      this.suggestions = []
-      this.$io.emit('requestApiKey', {pass: this.$parent.passphrase})
-      this.searchText = ''
-      if (this.$parent.appData) {
+      if (this.$route.path === '/to') {
+        this.mode = 'to'
+        if (this.$store.getters.net) {
 
-        if (this.$route.path === '/to') {
-          this.mode = 'to'
-          let reqBody = {
-            passphrase: this.$parent.passphrase,
-            position: this.$parent.position,
-            station: this.$parent.appData.fromStation
-          }
-          console.log(this.$parent.apiURL + '/api/v1/suggestions/to')
-          fetch(this.$parent.apiURL + '/api/v1/suggestions/to', {
-            method: 'post',
-            headers: {
-              'Authorization': this.$parent.apiKey,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(reqBody)
-          }).then(res => res.json()).then(res => {
-            //  console.log(res)
-            //this.suggestions = res
-            res.forEach(station => this.suggestions.push(station))
-            this.loading = false
+          const net = new brain.NeuralNetwork()
+          net.fromJSON(this.$store.getters.net);
+          const time = Date.now()
+          let resultsArray = []
+          let resultStations = []
+          const result = net.run({
+            day: moment(time).day() / 10,
+            hour: moment(time).hour() / 100,
+            [this.$store.getters.fromStation.abbr]: 1
           })
-
-        } else if (this.$route.path === '/from') {
-          this.mode = 'from'
-          let reqBody = {
-            passphrase: this.$parent.passphrase,
-            position: this.$parent.position
+          console.log(result)
+          for (const key in result) {
+            if (result.hasOwnProperty(key) && this.$store.getters.fromStation.abbr !== key) {
+              resultStations.push(key)
+              let stationData = this.$store.getters.getStations.filter(obj => {
+                return obj.abbr === key
+              })[0]
+              stationData.priority = result[key]
+              resultsArray.push(stationData)
+            }
           }
-          // console.log(reqBody)
-          console.log(this.$parent.apiURL + '/api/v1/suggestions/from')
-          fetch(this.$parent.apiURL + '/api/v1/suggestions/from', {
-            method: 'post',
-            headers: {
-              'Authorization': this.$parent.apiKey,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(reqBody)
-          }).then(res => res.json()).then(res => {
-            // console.log(res)
-            res.forEach(station => this.suggestions.push(station))
-            this.loading = false
+          resultsArray = resultsArray.sort((a, b) => {
+            return b.priority - a.priority
+          })
+          this.$store.getters.getStations.forEach(i => {
+            if (resultStations.indexOf(i.abbr) === -1 && this.$store.getters.fromStation.abbr !== i.abbr) {
+              resultsArray.push(i)
+            }
+          })
+          console.log(resultsArray)
+          this.suggestions = resultsArray
+        } else {
+          this.suggestions = this.$store.getters.getStations.filter(item => {
+            //   console.log(item.abbr, this.$store.getters.fromStation.abbr)
+            return item.abbr !== this.$store.getters.fromStation.abbr
           })
         }
+
+
+        this.loading = false
+      } else {
+        this.mode = 'from'
+        this.suggestions = this.$store.getters.getStations
+
+        this.loading = false
 
       }
     },
     computed: {
       filteredStations() {
-        return this.suggestions.filter((station) => {
-          if (this.searchText.length > 1) {
-            return station.name.toLowerCase().includes(this.searchText.toLowerCase())
-          } else {
-            return true
-          }
+        if (this.searchText.length > 1) {
+          return this.suggestions.filter((station) => {
 
-        })
+            return station.name.toLowerCase().includes(this.searchText.toLowerCase())
+
+
+          })
+        } else {
+          return this.suggestions
+        }
       },
     },
     methods: {
-
       setStation(station) {
-        //  console.log(station)
         if (this.mode === 'from') {
-          this.$io.emit('setFromStation', station)
-        } else {
-          this.$io.emit('setToStation', station)
+          this.$store.commit('setFromStation', station)
+
+
+          this.$router.push('/')
+        } else if (this.mode === 'to') {
+          this.$store.commit('setToStation', station)
+          if (station) {
+            console.log('updating trips')
+            fetch(this.$store.getters.getApi + '/api/v2/addStationData', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                user: this.$store.getters.getAuthentication.passphrase,
+                toStation: station,
+                fromStation: this.$store.getters.fromStation,
+              })
+            }).then(res => res.json()).then(res => {
+              console.log(res, 'updated trips')
+            })
+          }
+          this.$router.push('/')
         }
-        this.$router.push('/')
 
       }
     }

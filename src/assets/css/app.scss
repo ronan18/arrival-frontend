@@ -2,13 +2,18 @@ body, #app, .page {
   @apply font-sans;
   @appy m-0;
   height: 100%;
+  margin: 0 !important;
+  overflow: hidden;
+  overflow-y: scroll;
 }
+
 body {
   @apply bg-white;
+  margin: 0!important;
 }
 
 .page {
-  min-height: 100vh!important;
+  min-height: 100vh !important;
   @apply bg-grey-lighter flex flex-col m-auto;
   max-width: 500px !important;
 
@@ -183,6 +188,10 @@ body {
       @apply mr-2 text-right;
     }
 
+    .data-value.small {
+      @apply text-xs;
+    }
+
     .data-value {
       @apply font-bold text-sm;
       span {
@@ -295,6 +304,10 @@ body {
 
 .GREEN {
   @apply bg-green ;
+}
+
+.PURPLE {
+  background: #7a3e77;
 }
 
 .RED {
