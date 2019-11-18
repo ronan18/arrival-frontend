@@ -181,33 +181,6 @@
         } else {
           return false
         }
-      },
-      getLocation() {
-        if (navigator.geolocation) {
-          console.log('getting location')
-          navigator.geolocation.getCurrentPosition(position => {
-            console.log(position)
-            this.$store.commit('setPosition', {
-              coords: {
-                accuracy: position.accuracy, latitude: position.latitude, longitude: position.longitude
-              }, time: position.timestamp
-            })
-          }, (error) => {
-            console.log(error)
-          });
-
-
-        } else {
-          this.$swal({
-            title: "Location Access",
-            text: "In order to load suggestions Arrival needs access to your location. Please turn on location access.",
-            icon: "warning",
-            buttons: false,
-            dangerMode: true,
-            closeOnClickOutside: false
-          })
-          return false
-        }
       }
     }
   }

@@ -19,8 +19,8 @@ export default new Vuex.Store({
     serverVersion: 0,
 
     apiUrl: 'https://api.arrival.city',
-    // testingUrl: 'https://api.arrival.city',
-    testingUrl: 'http://localhost:3000'
+     testingUrl: 'https://api.arrival.city',
+   // testingUrl: 'http://localhost:3000'
   },
   mutations: {
     serverVersion(state, version) {

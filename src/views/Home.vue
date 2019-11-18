@@ -3,7 +3,7 @@
     <loader v-if="loading"></loader>
     <div class="page-heading">
       <h1>Arrival <span class="text-xs font-light">v{{$parent.version}}</span> <span class="text-xs font-bold text-red"
-                                                                                    v-if="outDated"> OUTDATED</span>
+                                                                                     v-if="outDated"> OUTDATED</span>
       </h1>
       <img @click="$router.push('/settings')" class="icon ml-auto w-6 mb-3" src="@/assets/icons/gear.svg">
     </div>
@@ -316,16 +316,22 @@
           }).then(res => res.json()).then(res => {
             console.log(res)
             this.updated = res.time
-            this.trains = res.estimates.etd.map(i => {
-              let result = {
-                abbreviation: i.abbreviation,
-                details: i.estimate[0],
-                etd: i.estimate[0].minutes,
-                destination: i.destination
-              }
+            let trains = []
 
-              return result
-            }).sort((a, b) => {
+            res.estimates.etd.forEach(i => {
+              i.estimate.forEach((estimate => {
+                let result = {
+                  abbreviation: i.abbreviation,
+                  details: estimate,
+                  etd: estimate.minutes,
+                  destination: i.destination
+                }
+
+                trains.push(result)
+              }))
+
+            })
+            this.trains = trains.sort((a, b) => {
               let conversionA = a.etd
               let conversionB = b.etd
               if (a.etd == 'Leaving') {
