@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    fromStationThruClosest: true,
     net: false,
     fromStation: false,
     toStation: false,
@@ -17,10 +18,9 @@ export default new Vuex.Store({
     stations: [],
     latestVersion: 0,
     serverVersion: 0,
-
     apiUrl: 'https://api.arrival.city',
-     testingUrl: 'https://api.arrival.city',
-   // testingUrl: 'http://localhost:3000'
+    testingUrl: 'https://api.arrival.city',
+    // testingUrl: 'http://localhost:3000'
   },
   mutations: {
     serverVersion(state, version) {
@@ -60,6 +60,7 @@ export default new Vuex.Store({
       state.fromStation = station
     },
     setToStation(state, station) {
+
       state.toStation = station
     },
     neuralNet(state, net) {
@@ -67,10 +68,16 @@ export default new Vuex.Store({
     },
     apiUrl(state, url) {
       state.apiUrl = url
+    },
+    disableFromStationThruClosest(state) {
+      state.fromStationThruClosest = false
     }
   },
   actions: {},
   getters: {
+    fromStationThruClosest(state) {
+      return state.fromStationThruClosest
+    },
     serverVersion(state) {
       return state.serverVersion
     },

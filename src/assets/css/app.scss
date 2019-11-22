@@ -1,3 +1,7 @@
+html {
+  height: 100%;
+}
+
 body, #app, .page {
   @apply font-sans;
   @appy m-0;
@@ -8,12 +12,12 @@ body, #app, .page {
 }
 
 body {
-  @apply bg-white;
+  @apply bg-grey-lighter ;
   margin: 0 !important;
 }
 
 .page {
-  min-height: 100vh !important;
+  min-height: 100% !important;
   @apply bg-grey-lighter flex flex-col m-auto;
   max-width: 500px !important;
 
@@ -37,7 +41,8 @@ body {
 
 .auth {
 
-  @apply p-5 text-center bg-white h-screen;
+  @apply p-5 text-center bg-white;
+  height: 100%;
   .back {
     @apply font-bold text-blue mr-auto;
   }
@@ -72,8 +77,8 @@ body {
 
 .onBoarding {
 
-  @apply p-5 text-center bg-white h-screen;
-
+  @apply p-5 text-center bg-white ;
+  height: 100%;
 
   svg {
     @apply m-auto mb-3;
@@ -99,8 +104,8 @@ body {
 }
 
 .home-locations {
-  @apply bg-grey-dark p-3 flex justify-between content-center;
-  height: 14vh;
+  @apply bg-grey-dark p-4 py-8 flex justify-between content-center;
+
   top: 0;
   position: -webkit-sticky;
   position: sticky;
@@ -323,11 +328,13 @@ body {
 .GREY {
 
   background: #bfbfbf;
-  color: rgba(0,0,0,0);
+  color: rgba(0, 0, 0, 0);
 }
+
 .skeleton {
   opacity: 0.9;
 }
+
 .loading {
   background: url('../splashscreen.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;

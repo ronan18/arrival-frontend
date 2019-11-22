@@ -1,7 +1,7 @@
 <template>
-  <div style="margin: 0">
-    <router-view/>
-  </div>
+
+  <router-view/>
+
 </template>
 <script>
   import '@/assets/css/tailwind.scss'
@@ -91,7 +91,8 @@
             icon: "warning",
             buttons: false,
             dangerMode: true,
-            closeOnClickOutside: false
+            closeOnClickOutside: false,
+            navigationWatch: false
           })               // ...
         }
         // Show a different icon based on offline/online
@@ -144,7 +145,29 @@
                 this.$store.commit('neuralNet', res.net)
               }
               this.$router.push('/')
-
+              this.navigationWatch = navigator.geolocation.watchPosition((position) => {
+                  console.log(position, 'watched position')
+                  this.$store.commit('setPosition', {
+                    coords: {
+                      accuracy: position.coords.accuracy,
+                      latitude: position.coords.latitude,
+                      longitude: position.coords.longitude
+                    }, time: position.timestamp
+                  })
+                  const closestStations = this.getClosestStation()
+                  this.$store.commit('setStations', closestStations)
+                  console.log('updated closest stations')
+                  if (this.$store.getters.fromStationThruClosest) {
+                    this.$store.commit('setFromStation', closestStations[0])
+                    console.log('updated from station thru geolocation', closestStations[0].abbr)
+                  }
+                }, (err) => {
+                  console.error(err)
+                }, {
+                  enableHighAccuracy: false,
+                  maximumAge: 0
+                }
+              );
             } else {
               this.$router.push('/login')
             }

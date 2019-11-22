@@ -49,7 +49,8 @@
         </div>
       </div>
 
-      <p class="copyright">Client v{{this.$parent.version}}, Server v{{$store.getters.serverVersion}}, Config v{{$store.getters.latestVersion}} <br> Arrival
+      <p class="copyright">Client v{{this.$parent.version}}, Server v{{$store.getters.serverVersion}}, Config
+        v{{$store.getters.latestVersion}} <br> Arrival
         is an open source project by Ronan Furuta</p>
     </div>
   </main>
@@ -76,6 +77,8 @@
       },
       logout() {
         this.$parent.passphrase = null
+        navigator.geolocation.clearWatch(this.$parent.navigationWatch);
+        this.$parent.navigationWatch = false
         this.$store.commit('setPassphrase', false)
         this.$store.commit('setKey', false)
         localStorage.removeItem("passphrase");

@@ -115,10 +115,12 @@
         if (this.mode === 'from') {
           this.$store.commit('setFromStation', station)
 
-
+          this.$store.commit('disableFromStationThruClosest')
           this.$router.push('/')
         } else if (this.mode === 'to') {
           this.$store.commit('setToStation', station)
+
+
           if (station) {
             console.log('updating trips')
             fetch(this.$store.getters.getApi + '/api/v2/addStationData', {

@@ -1,5 +1,5 @@
 <template>
-  <main class="page" style="margin: 0">
+  <main class="page home" style="margin: 0">
     <loader v-if="loading"></loader>
     <div class="page-heading">
       <h1>Arrival <span class="text-xs font-light">v{{$parent.version}}</span> <span class="text-xs font-bold text-red"
@@ -139,7 +139,7 @@
     components: {loader},
     data() {
       return {
-        fromStation: 'none',
+
         user: {},
         trains: [],
         updated: '',
@@ -151,7 +151,7 @@
     },
     mounted() {
       if (this.$store.getters.fromStation) {
-        this.fromStation = this.$store.getters.fromStation
+
         console.log(this.fromStation)
         this.loading = false
       }
@@ -177,11 +177,11 @@
 
               this.$store.commit('setStations', closestStations)
               if (!this.$store.getters.fromStation) {
-                this.fromStation = closestStations[0]
+
                 this.$store.commit('setFromStation', closestStations[0])
                 console.log(closestStations[0])
               } else {
-                this.fromStation = this.$store.getters.fromStation
+
                 console.log(this.fromStation)
               }
               this.loading = false
@@ -196,6 +196,16 @@
                 this.$swal({
                   title: "Location Access",
                   text: "In order to load suggestions Arrival needs access to your location. Please turn on location access.",
+                  icon: "warning",
+                  buttons: false,
+                  dangerMode: true,
+                  closeOnClickOutside: false
+                })
+              }
+              if (error.code === 2) {
+                this.$swal({
+                  title: "Location Error",
+                  text: "There was an error accessing your location. Arrival needs your location in order to determine what station to get train data for.",
                   icon: "warning",
                   buttons: false,
                   dangerMode: true,
@@ -232,11 +242,11 @@
 
           this.$store.commit('setStations', closestStations)
           if (!this.$store.getters.fromStation) {
-            this.fromStation = closestStations[0]
+
             this.$store.commit('setFromStation', closestStations[0])
             console.log(closestStations[0])
           } else {
-            this.fromStation = this.$store.getters.fromStation
+
             console.log(this.fromStation)
           }
           this.loading = false
@@ -253,6 +263,9 @@
       }
     },
     computed: {
+      fromStation() {
+        return this.$store.getters.fromStation
+      },
       latestVersion() {
         return this.$store.getters.latestVersion
       },
