@@ -18,9 +18,10 @@ export default new Vuex.Store({
     stations: [],
     latestVersion: 0,
     serverVersion: 0,
+    localTesting: false,
     apiUrl: 'https://api.arrival.city',
-    testingUrl: 'https://api.arrival.city',
-    // testingUrl: 'http://localhost:3000'
+    testingUrlPublic: 'https://api.arrival.city',
+    testingUrlLocal: 'http://localhost:3000'
   },
   mutations: {
     serverVersion(state, version) {
@@ -55,6 +56,7 @@ export default new Vuex.Store({
     },
     setStations(state, stations) {
       state.stations = stations
+
     },
     setFromStation(state, station) {
       state.fromStation = station
@@ -112,7 +114,12 @@ export default new Vuex.Store({
       if (state.production) {
         return state.apiUrl
       } else {
-        return state.testingUrl
+        if (state.localTesting) {
+          return state.testingUrlLocal
+        } else {
+          return state.testingUrlPublic
+        }
+
       }
 
     },

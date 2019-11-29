@@ -114,6 +114,23 @@
       setStation(station) {
         if (this.mode === 'from') {
           this.$store.commit('setFromStation', station)
+          if (station.abbr != this.$store.getters.getStations[0].abbr) {
+            fetch(this.$store.getters.getApi + '/api/v2/fromstationdata', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                user: this.$store.getters.getAuthentication.passphrase,
+                fromStation: station.abbr,
+                location: this.$store.getters.getLocation,
+                closestStation: this.$store.getters.getStations[0].abbr
+              })
+            }).then(res => res.json()).then(res => {
+              console.log(res, 'updated from trips')
+            })
+          }
 
           this.$store.commit('disableFromStationThruClosest')
           this.$router.push('/')

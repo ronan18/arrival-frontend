@@ -5,6 +5,7 @@ import store from './store'
 import './registerServiceWorker'
 import firebase from 'firebase/app'
 import 'firebase/remote-config'
+import 'firebase/performance'
 
 import swal from 'sweetalert';
 import moment from 'moment'
@@ -20,7 +21,7 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
+Vue.prototype.$perf = firebase.performance();
 Vue.prototype.$firebase = firebase
 
 Vue.prototype.$swal = swal

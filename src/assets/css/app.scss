@@ -1,22 +1,26 @@
 html {
-  height: 100%;
+  height: 100%!important;
+  @apply bg-grey-lighter ;
+  overflow: hidden;
+  margin: 0;
 }
 
 body, #app, .page {
   @apply font-sans;
-  @appy m-0;
-  height: 100%;
+  height: 100%!important;
   margin: 0 !important;
   overflow: hidden;
-  overflow-y: scroll;
+
+  @apply bg-grey-lighter ;
 }
 
 body {
-  @apply bg-grey-lighter ;
+
   margin: 0 !important;
 }
 
 .page {
+  overflow-y: scroll;
   min-height: 100% !important;
   @apply bg-grey-lighter flex flex-col m-auto;
   max-width: 500px !important;

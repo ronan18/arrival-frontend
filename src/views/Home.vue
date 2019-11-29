@@ -298,6 +298,7 @@
             }
           }).then(res => res.json()).then(res => {
             console.log(res)
+
             this.trains = res.trips.map(i => {
 
               const result = {
@@ -309,6 +310,8 @@
               }
               return result
             })
+
+
             this.loading = false
           }).catch(err => {
             this.$swal({
@@ -344,6 +347,7 @@
               }))
 
             })
+
             this.trains = trains.sort((a, b) => {
               let conversionA = a.etd
               let conversionB = b.etd
@@ -361,6 +365,8 @@
               }
               return conversionA - conversionB
             })
+
+
             this.loading = false
 
           }).catch(err => {
@@ -373,6 +379,8 @@
               closeOnClickOutside: false
             })
           })
+
+
 
         }
 
