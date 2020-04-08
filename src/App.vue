@@ -144,6 +144,9 @@
               if (res.net) {
                 this.$store.commit('neuralNet', res.net)
               }
+              if (res.fromNet) {
+                this.$store.commit('fromNet', res.net)
+              }
               this.$router.push('/')
               this.navigationWatch = navigator.geolocation.watchPosition((position) => {
                   console.log(position, 'watched position')

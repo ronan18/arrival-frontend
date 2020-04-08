@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     fromStationThruClosest: true,
     net: false,
+    fromNet: false,
     fromStation: false,
     toStation: false,
     position: false,
@@ -73,6 +74,9 @@ export default new Vuex.Store({
     },
     disableFromStationThruClosest(state) {
       state.fromStationThruClosest = false
+    },
+    fromNet(state, net) {
+      state.fromNet = net
     }
   },
   actions: {},
@@ -88,6 +92,9 @@ export default new Vuex.Store({
     },
     net(state) {
       return state.net
+    },
+    fromNet(state) {
+      return state.fromNet
     },
     getStations(state) {
       return state.stations

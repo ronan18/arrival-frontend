@@ -1,15 +1,15 @@
 html {
   height: 100%!important;
   @apply bg-grey-lighter ;
-  overflow: hidden;
+  overflow-y: scroll;
   margin: 0;
 }
 
 body, #app, .page {
   @apply font-sans;
-  height: 100%!important;
+  min-height: 100% !important;
   margin: 0 !important;
-  overflow: hidden;
+  overflow-y: scroll;
 
   @apply bg-grey-lighter ;
 }
@@ -21,7 +21,7 @@ body {
 
 .page {
   overflow-y: scroll;
-  min-height: 100% !important;
+
   @apply bg-grey-lighter flex flex-col m-auto;
   max-width: 500px !important;
 
@@ -111,9 +111,7 @@ body {
   @apply bg-grey-dark p-4 py-8 flex justify-between content-center;
 
   top: 0;
-  position: -webkit-sticky;
   position: sticky;
-
 
   .locations-location {
     @apply flex flex-col justify-center flex-grow-0 w-2/5;

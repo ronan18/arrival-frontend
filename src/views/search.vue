@@ -90,10 +90,46 @@
         this.loading = false
       } else {
         this.mode = 'from'
-        this.suggestions = this.$store.getters.getStations
-
+        if (this.$store.getters.fromNet && false) {
+//TODO FIX THIS NOT SURE IT WORKS
+          const net = new brain.NeuralNetwork()
+          net.fromJSON(this.$store.getters.fromNet);
+          const time = Date.now()
+          let resultsArray = []
+          let resultStations = []
+          const result = net.run({
+            day: moment(time).day() / 10,
+            hour: moment(time).hour() / 100,
+            [this.$store.getters.getStations[0].abbr]: 1
+          })
+          console.log(result)
+          for (const key in result) {
+            if (result.hasOwnProperty(key)) {
+              resultStations.push(key)
+              let stationData = this.$store.getters.getStations.filter(obj => {
+                return obj.abbr === key
+              })[0]
+              stationData.priority = result[key]
+              resultsArray.push(stationData)
+            }
+          }
+          resultsArray = resultsArray.sort((a, b) => {
+            return b.priority - a.priority
+          })
+          this.$store.getters.getStations.forEach(i => {
+            if (resultStations.indexOf(i.abbr) === -1 && this.$store.getters.fromStation.abbr !== i.abbr) {
+              resultsArray.push(i)
+            }
+          })
+          console.log(resultsArray)
+          this.suggestions = resultsArray
+        } else {
+          this.suggestions = this.$store.getters.getStations.filter(item => {
+            //   console.log(item.abbr, this.$store.getters.fromStation.abbr)
+            return item.abbr !== this.$store.getters.fromStation.abbr
+          })
+        }
         this.loading = false
-
       }
     },
     computed: {

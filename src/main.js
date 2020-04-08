@@ -17,7 +17,8 @@ const firebaseConfig = {
   projectId: "arrival-bart",
   storageBucket: "arrival-bart.appspot.com",
   messagingSenderId: "145284042800",
-  appId: "1:145284042800:web:600f3d8d20f8aca3bfddf5"
+  appId: "1:145284042800:web:600f3d8d20f8aca3bfddf5",
+  measurementId: "G-KS35QM4J1N"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
